@@ -1,7 +1,8 @@
 (ns re-frame.router
-  (:require [re-frame.events  :refer [handle]]
+  (:require [re-frame.events  :refer [handle handle-event-using-registry]]
             [re-frame.interop :refer [after-render empty-queue next-tick]]
             [re-frame.loggers :refer [console]]
+            [re-frame.registrar :as registrar]
             [re-frame.trace   :as trace :include-macros true]))
 
 
@@ -90,7 +91,8 @@
 
 
 ;; Concrete implementation of IEventQueue
-(deftype EventQueue [#?(:cljs ^:mutable fsm-state               :clj ^:volatile-mutable fsm-state)
+(deftype EventQueue [derefable-registry
+                     #?(:cljs ^:mutable fsm-state               :clj ^:volatile-mutable fsm-state)
                      #?(:cljs ^:mutable queue                   :clj ^:volatile-mutable queue)
                      #?(:cljs ^:mutable post-event-callback-fns :clj ^:volatile-mutable post-event-callback-fns)]
   IEventQueue
@@ -172,7 +174,8 @@
     [this]
     (let [event-v (peek queue)]
       (try
-        (handle event-v)
+        (handle-event-using-registry @derefable-registry
+                                    event-v)
         (set! queue (pop queue))
         (-call-post-event-callbacks this event-v)
         (catch #?(:cljs :default :clj Exception) ex
@@ -219,7 +222,10 @@
 ;; When "dispatch" is called, the event is added into this event queue.  Later,
 ;;  the queue will "run" and the event will be "handled" by the registered function.
 ;;
-(def event-queue (->EventQueue :idle empty-queue {}))
+(def event-queue (->EventQueue registrar/kind->id->handler
+                               :idle
+                               empty-queue
+                               {}))
 
 
 ;; ---------------------------------------------------------------------------

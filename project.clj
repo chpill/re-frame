@@ -6,11 +6,13 @@
                  [org.clojure/clojurescript  "1.9.227"]
                  [reagent                    "0.6.0"]
                  [net.cgrand/macrovich "0.2.0"]
-                 [org.clojure/tools.logging  "0.3.1"]]
+                 [org.clojure/tools.logging  "0.3.1"]
+                 [rum "0.10.8"]]
 
   :profiles {:debug {:debug true}
              :dev   {:dependencies [[karma-reporter            "1.0.1"]
-                                    [binaryage/devtools        "0.8.1"]]
+                                    [binaryage/devtools        "0.8.1"]
+                                    [cljsjs/react-dom-server "15.4.2-2"]]
                      :plugins      [[lein-ancient              "0.6.10"]
                                     [lein-cljsbuild            "1.1.4"]
                                     [lein-npm                  "0.6.2"]
