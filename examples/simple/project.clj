@@ -1,8 +1,12 @@
 (defproject simple "0.9.0"
   :dependencies [[org.clojure/clojure        "1.8.0"]
                  [org.clojure/clojurescript  "1.9.227"]
+                 [cljsjs/react "15.4.2-0"]
+                 [cljsjs/react-dom "15.4.2-0"]
                  [reagent  "0.6.0-rc"]
-                 [re-frame "0.9.0"]]
+                 [org.martinklepsch/derivatives "0.2.0"]
+                 [rum "0.10.8"]
+                 [re-frame "0.9.3-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "1.1.3"]
             [lein-figwheel  "0.5.4-7"]]

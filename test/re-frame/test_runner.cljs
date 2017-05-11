@@ -8,7 +8,9 @@
     [re-frame.subs-test]
     [re-frame.fx-test]
     [re-frame.trace-test]
-    [re-frame.restore-test]))
+    [re-frame.restore-test]
+    [re-frame.frank-test]
+    [re-frame.rum-test]))
 
 (enable-console-print!)
 
@@ -23,7 +25,9 @@
     're-frame.subs-test
     're-frame.fx-test
     're-frame.trace-test
-    're-frame.restore-test))
+    're-frame.restore-test
+    're-frame.frank-test
+    're-frame.rum-test))
 
 ;; ---- KARMA  -----------------------------------------------------------------
 
@@ -34,4 +38,6 @@
     're-frame.subs-test
     're-frame.fx-test
     're-frame.trace-test
-    're-frame.restore-test))
+    're-frame.restore-test
+    're-frame.frank-test
+    're-frame.rum-test))

@@ -38,13 +38,13 @@
    "
   ([id]
   (->interceptor
-    :id      :coeffects
+   :id      (keyword "coeffects" (name id))
     :before  (fn coeffects-before
                [context]
                (update context :coeffects (get-handler kind id)))))
   ([id value]
    (->interceptor
-     :id     :coeffects
+    :id     (keyword "coeffects" (name id))
      :before  (fn coeffects-before
                 [context]
                 (update context :coeffects (get-handler kind id) value)))))

@@ -2,7 +2,11 @@
   :dependencies [[org.clojure/clojure        "1.8.0"]
                  [org.clojure/clojurescript  "1.9.89"]
                  [reagent "0.6.0-rc"]
-                 [re-frame "0.9.0"]
+                 [cljsjs/react "15.4.2-0"]
+                 [cljsjs/react-dom "15.4.2-0"]
+                 [org.martinklepsch/derivatives "0.2.0"]
+                 [rum "0.10.8"]
+                 [re-frame "0.9.3-SNAPSHOT"]
                  [binaryage/devtools "0.8.1"]
                  [secretary "1.2.3"]]
 

@@ -99,6 +99,7 @@
          context
          (let [interceptor (peek queue)   ;; next interceptor to call
                stack (:stack context)]    ;; already completed interceptors
+
            (recur (-> context
                       (assoc :queue (pop queue)
                              :stack (conj stack interceptor))

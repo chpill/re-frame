@@ -1,5 +1,161 @@
 
-<img src="/images/logo/re-frame_128w.png?raw=true">
+<img src="/images/logo/re-frankenstein-logo.png?raw=true">
+
+# Re-Frankenstein
+
+This is a fork of [re-frame](https://github.com/Day8/re-frame/) to experiment
+with local state and [rum]. Apart from the subscription mechanism, re-frame is
+not at all tied to reagent. And the heart of the interceptor code is not
+dependent on global mutable state. This fork illustrates how, with a few tweaks
+to the core namespaces, we can actually use most of re-frame without using the
+global `re-frame.db/app-db` atom. It is designed to be backward compatible with
+re-frame. The API of re-frame is still there, untouched (well, almost!).
+
+
+I'd be very happy if you could try to use it from clojars and tell me if
+anything break in your re-frame app! But this is very experimental software, I
+will make no guarantees about stability of the API here.
+
+TODO, insert clojar link here!
+
+
+[rum]: https://github.com/tonsky/rum
+
+## TL;DR
+
+Just look at the todomvc example extended with the new "frankenstein" todos. The
+todos at the top are the original re-frame todos **unmodified**. Below it, you
+will see another todos list, that shares the behavior of the original, but uses
+its own local state. You can even spawn more of those todos, each with its own
+state! Of course, there is still only one local storage, so this is a *last
+write win* situation here. There are also some issues you may notice about the
+routing part of the app.
+
+
+Go through its [implemention], you will see that the `db` and `events` namespaces
+were not modified. You will also see that we use a different set of views, using
+[rum] and subscription, using [derivatives]. In the core namespace, we create
+some local-state. Let's call him frank.
+
+[derivatives]: https://github.com/martinklepsch/derivatives
+
+[implementation]: todo
+
+## Basics
+
+Create a re-frame app, and register handlers effects and coeffects as you would
+normally do. The only restriction here is that you may not reference the
+`re-frame.db/app-state` in those handlers. Same restriction if you want to write
+custom interceptors.
+
+Then you can create a new abomination (you may create as many as you like).
+
+```clj
+(def fresh-monster (re-frame.frank/create))
+
+(frank/dispatch! fresh-monster [:an-event])
+```
+
+Congratulations, you've just made a transaction on some local state!
+
+[its implementation]: todo
+
+## Re-Frame, Rum and Derivatives: The unholy stitching together
+
+The [re-frame.rum] namespace provides rum mixins to interact with the react
+context, so that we can inject our monster into it and access it from our rum
+views. To replace the original subscription mechanism, we use the [derivatives]
+library. We just provide it our monster (that implements some `Atom`
+capabilities) and it does all the hard work of making the magic of reactive
+programming happen.
+
+[re-frame.rum]: todo
+
+So, yeah, 3 different libraries mashed into one... Hence the reference to the
+creature of the [Dr Stein] (It is highly recommended that you play that song in
+another tab while you continue reading this. You know you need more power metal
+in your life.)
+
+Someone suggested me that a more flattering comparison would have been the power
+rangers assembling into the Megazord. Although it would have been nice to have
+`morphing-time!` somewhere in the API, Helloween has yet to make a song about
+them.
+
+[Dr Stein]: https://www.youtube.com/watch?v=3FFTQRmsK0k
+
+
+To see a simple case of "stitching", look at the extented [simple clock example].
+
+The root component is kind of complicated in the way it is declared (because the
+mixin code has to be given functions to extract the different pieces from the
+arguments). Not really happy with that, hopefully we'll find a better way.
+
+[simple clock example]: todo
+
+
+## How does the local part works?
+
+Every time you register an event handler using [reg-event-db, reg-event-fx or
+reg-event-ctx], notice that you are in fact registering a chain of interceptor.
+`cofx/inject-db` and `fx/do-fx` are always the first two interceptors of the
+chain. That is no good for us, because they both indirectly reference the global
+mutable `app-db`.
+
+Fortunately, interceptors are represented as data! So when we
+create a new monster (using `(def fresh-monster (re-frame.frank/create))`), we
+in fact de-reference the value of the handler registry, and we modify that value
+to replace the parts that are "global stateful" with some "local stateful" ones.
+[See for yourself].
+
+[reg-event-db, reg-event-fx or reg-event-ctx]: https://github.com/Day8/re-frame/blob/cf61b2db1da360687c6b247888b29fb58bedf7cb/src/re_frame/core.cljc#L77-L103
+
+[See for yourself]: todo
+
+
+### Is this a joke?
+
+Well it may have started that way, but it actually works so...
+
+More seriously, Mike Thompson proposed the term `frame` in this [issue about
+global state]. So if there is some interest in merging some of this work in
+re-frame, this would probably be the official name for this thing.
+
+[issue about global state]: https://github.com/Day8/re-frame/issues/137
+
+## Goals
+
+Here are some of the directions I would like to explore with this fork, in no
+particular order:
+
+- Find a less ugly way to stitch together the rum root component
+
+- Warn the user when some of the context mixins are used without the rum `defcs`
+  (that allows to access the local state of the rum component). Using the
+  classic `defc` macro would not give access to the context you're trying to
+  access.
+  
+- Find a way to use the subscription mechanism without reagent? I have honestly
+  never used subscriptions, so I really don't know what I'm dealing with here. 
+
+- Tracing? In the [issue about global state] mentioned above, it is said that
+  the tracing system uses an atom internally. Again, I have no familiarity with
+  what it is or what it does yet.
+
+- [devcards] helpers: As the views only consume data and dispatch events from
+  functions in the react context, it should be possible to test them in
+  isolation with some devcards.
+  
+[devcards]: https://github.com/bhauman/devcards
+
+- Server side rendering: Rum has first class support for server-side rendering,
+  so we should make it easy to use it. I'm not sure this is the best place to deal
+  with this issue, as the problem really boils down to how you get data to you
+  views, aka the subscriptions or derivatives for now. I'll have to dig more
+  about how to do it with [derivatives].
+
+
+
+# v Original README below v
 
 ## Derived Values, Flowing
 

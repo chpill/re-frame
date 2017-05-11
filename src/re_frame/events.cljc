@@ -2,7 +2,7 @@
   (:require [re-frame.db          :refer [app-db]]
             [re-frame.utils       :refer [first-in-vector]]
             [re-frame.interop     :refer [empty-queue debug-enabled?]]
-            [re-frame.registrar   :refer [get-handler register-handler]]
+            [re-frame.registrar   :refer [get-handler-from-registry register-handler] :as registrar]
             [re-frame.loggers     :refer [console]]
             [re-frame.interceptor :as  interceptor]
             [re-frame.trace       :as trace :include-macros true]))
@@ -49,11 +49,14 @@
 
 (def ^:dynamic *handling* nil)    ;; remember what event we are currently handling
 
-(defn handle
+(defn handle-event-using-registry
   "Given an event vector, look up the associated intercepter chain, and execute it."
-  [event-v]
+  [registry event-v]
   (let [event-id  (first-in-vector event-v)]
-    (if-let [interceptors  (get-handler kind event-id true)]
+    (if-let [interceptors  (get-handler-from-registry registry
+                                                      kind
+                                                      event-id
+                                                      true)]
       (if *handling*
         (console :error (str "re-frame: while handling \"" *handling* "\", dispatch-sync was called for \"" event-v "\". You can't call dispatch-sync within an event handler."))
         (binding [*handling*  event-v]
@@ -63,3 +66,6 @@
             (interceptor/execute event-v interceptors)))))))
 
 
+(defn handle [event-v]
+  (handle-event-using-registry @registrar/kind->id->handler
+                               event-v))
