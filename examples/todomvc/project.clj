@@ -6,9 +6,10 @@
                  [cljsjs/react-dom "15.4.2-0"]
                  [org.martinklepsch/derivatives "0.2.0"]
                  [rum "0.10.8"]
-                 [re-frame "0.9.3-SNAPSHOT"]
                  [binaryage/devtools "0.8.1"]
-                 [secretary "1.2.3"]]
+                 [secretary "1.2.3"]
+
+                 [com.chpill.re-frankenstein "0.0.1-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]
             [lein-figwheel "0.5.6"]]
