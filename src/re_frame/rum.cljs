@@ -1,7 +1,6 @@
 (ns re-frame.rum
   (:require [goog.object :as gobj]
-            [re-frame.frank :as frank]
-            [rum.core :as rum]))
+            [re-frame.frank :as frank]))
 
 
 (defn wrap-dispatch [dispatch-fn frank-instance]
