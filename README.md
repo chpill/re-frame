@@ -23,13 +23,14 @@ will make no guarantees about stability of the API here.
 
 ## TL;DR
 
-Just look at the todomvc example extended with the new "frankenstein" todos. The
-todos at the top are the original re-frame todos **unmodified**. Below it, you
-will see another todos list, that shares the behavior of the original, but uses
-its own local state. You can even spawn more of those todos, each with its own
-state! Of course, there is still only one local storage, so this is a *last
-write win* situation here. There are also some issues you may notice about the
-routing part of the app.
+Just look at the todomvc example extended with the new "frankenstein"
+todos [here](https://chpill.github.io/todos-re-frankenstein/)!. The todos at the
+top are the original re-frame todos **unmodified**. Below it, you will see
+another todos list, that shares the behavior of the original, but uses its own
+local state. You can even spawn more of those todos, each with its own state! Of
+course, there is still only one local storage, so this is a *last write win*
+situation here. There are also some issues you may notice about the routing part
+of the app.
 
 
 Go through its [implemention], you will see that the `db` and `events` namespaces
