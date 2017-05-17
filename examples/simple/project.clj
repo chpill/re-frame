@@ -6,7 +6,8 @@
                  [reagent  "0.6.0-rc"]
                  [org.martinklepsch/derivatives "0.2.0"]
                  [rum "0.10.8"]
-                 [re-frame "0.9.3-SNAPSHOT"]]
+
+                 [com.chpill.re-frankenstein "0.0.1-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "1.1.3"]
             [lein-figwheel  "0.5.4-7"]]
