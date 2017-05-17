@@ -13,7 +13,7 @@ re-frame. The API of re-frame is still there, untouched (well, almost!).
 
 
 I'd be very happy if you could try to use it from clojars and tell me if
-anything break in your re-frame app! But this is very experimental software, I
+anything breaks in your re-frame app! But this is very experimental software, I
 will make no guarantees about stability of the API here.
 
 [![Clojars Project](https://img.shields.io/clojars/v/com.chpill.re-frankenstein.svg)](https://clojars.org/com.chpill.re-frankenstein)
