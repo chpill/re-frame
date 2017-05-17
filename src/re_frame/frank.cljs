@@ -9,14 +9,6 @@
             [re-frame.loggers :as loggers]
             [re-frame.trace :as trace]))
 
-;;;;;;;;;;
-;; TODO ;;
-;;;;;;;;;;
-
-;; - create a new way to register an event, that does not use re-frame.cofx/inject-db
-;; - profit
-
-
 
 ;; Adapted from re-frame.registrar/get-handler to take the handler registry
 ;; value as parameter

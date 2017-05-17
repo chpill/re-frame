@@ -1,6 +1,6 @@
-(defproject re-frame "0.9.4"
-  :description  "A Clojurescript MVC-like Framework For Writing SPAs Using Reagent."
-  :url          "https://github.com/Day8/re-frame.git"
+(defproject com.chpill.re-frankenstein "0.0.1-SNAPSHOT"
+  :description  "The deviant fork of re-frame"
+  :url          "https://github.com/chpill/re-frankenstein.git"
   :license      {:name "MIT"}
   :dependencies [[org.clojure/clojure        "1.8.0"]
                  [org.clojure/clojurescript  "1.9.227"]
