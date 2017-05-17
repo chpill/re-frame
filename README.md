@@ -25,7 +25,7 @@ will make no guarantees about stability of the API here.
 
 Just look at the todomvc example extended with the new "frankenstein"
 todos [here](https://chpill.github.io/todos-re-frankenstein/)!. The todos at the
-top are the original re-frame todos **unmodified**. Below it, you will see
+top are the original, **unmodified** re-frame todos. Below that, you will see
 another todos list, that shares the behavior of the original, but uses its own
 local state. You can even spawn more of those todos, each with its own state! Of
 course, there is still only one local storage, so this is a *last write win*
@@ -35,8 +35,8 @@ of the app.
 
 Go through its [implemention], you will see that the `db` and `events` namespaces
 were not modified. You will also see that we use a different set of views, using
-[rum] and subscription, using [derivatives]. In the core namespace, we create
-some local-state. Let's call him frank.
+[rum], and subscription, using [derivatives]. In the core namespace, we create
+some local-state. Let's call him Frank.
 
 [derivatives]: https://github.com/martinklepsch/derivatives
 
@@ -44,7 +44,7 @@ some local-state. Let's call him frank.
 
 ## Basics
 
-Create a re-frame app, and register handlers effects and coeffects as you would
+Create a re-frame app, and register effect and coeffect handlers as you would
 normally do. The only restriction here is that you may not reference the
 `re-frame.db/app-state` in those handlers. Same restriction if you want to write
 custom interceptors.
@@ -71,10 +71,10 @@ programming happen.
 
 [re-frame.rum]: https://github.com/chpill/re-frankenstein/blob/6353a6a8bd93a88ad2f72e121b41fe53b6b48064/src/re_frame/rum.cljs
 
-So, yeah, 3 different libraries mashed into one... Hence the reference to the
-creature of the [Dr Stein] (It is highly recommended that you play that song in
-another tab while you continue reading this. You know you need more power metal
-in your life.)
+So, yeah, 3 different libraries mashed into the picture... Hence the reference
+to the creature of the [Dr Stein] (It is highly recommended that you play that
+song in another tab while you continue reading this. You know you need more
+power metal in your life.)
 
 Someone suggested me that a more flattering comparison would have been the power
 rangers assembling into the Megazord. Although it would have been nice to have
@@ -88,7 +88,7 @@ To see a simple case of "stitching", look at the extented [simple clock example]
 
 The root component is kind of complicated in the way it is declared (because the
 mixin code has to be given functions to extract the different pieces from the
-arguments). Not really happy with that, hopefully we'll find a better way.
+arguments). Not really happy with that -- hopefully we'll find a better way.
 
 [simple clock example]: https://github.com/chpill/re-frankenstein/blob/6353a6a8bd93a88ad2f72e121b41fe53b6b48064/examples/simple/src/simple/core.cljs
 
@@ -130,9 +130,9 @@ particular order:
 - Find a less ugly way to stitch together the rum root component
 
 - Warn the user when some of the context mixins are used without the rum `defcs`
-  (that allows to access the local state of the rum component). Using the
-  classic `defc` macro would not give access to the context you're trying to
-  access.
+  macro (that allows to access the local state of the rum component). Using the
+  classic `defc` macro will not give you the things you're trying to
+  access from the context, and it can be hard to trace why.
   
 - Find a way to use the subscription mechanism without reagent? I have honestly
   never used subscriptions, so I really don't know what I'm dealing with here. 
@@ -146,7 +146,8 @@ particular order:
 
 - [devcards] helpers: As the views only consume data and dispatch events from
   functions in the react context, it should be possible to test them in
-  isolation with some devcards.
+  isolation with some devcards. We should at least provide an example, and if it
+  is hard to do, maybe some helpers?
   
 [devcards]: https://github.com/bhauman/devcards
 
