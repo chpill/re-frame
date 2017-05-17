@@ -33,7 +33,7 @@ situation here. There are also some issues you may notice about the routing part
 of the app.
 
 
-Go through its [implemention], you will see that the `db` and `events` namespaces
+Go through its [implementation], you will see that the `db` and `events` namespaces
 were not modified. You will also see that we use a different set of views, using
 [rum], and subscription, using [derivatives]. In the core namespace, we create
 some local-state. Let's call him Frank.
