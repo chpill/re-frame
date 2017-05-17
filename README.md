@@ -39,7 +39,7 @@ some local-state. Let's call him frank.
 
 [derivatives]: https://github.com/martinklepsch/derivatives
 
-[implementation]: todo
+[implementation]: https://github.com/chpill/re-frankenstein/tree/6353a6a8bd93a88ad2f72e121b41fe53b6b48064/examples/todomvc/src/todomvc
 
 ## Basics
 
@@ -58,7 +58,6 @@ Then you can create a new abomination (you may create as many as you like).
 
 Congratulations, you've just made a transaction on some local state!
 
-[its implementation]: todo
 
 ## Re-Frame, Rum and Derivatives: The unholy stitching together
 
@@ -69,7 +68,7 @@ library. We just provide it our monster (that implements some `Atom`
 capabilities) and it does all the hard work of making the magic of reactive
 programming happen.
 
-[re-frame.rum]: todo
+[re-frame.rum]: https://github.com/chpill/re-frankenstein/blob/6353a6a8bd93a88ad2f72e121b41fe53b6b48064/src/re_frame/rum.cljs
 
 So, yeah, 3 different libraries mashed into one... Hence the reference to the
 creature of the [Dr Stein] (It is highly recommended that you play that song in
@@ -90,7 +89,7 @@ The root component is kind of complicated in the way it is declared (because the
 mixin code has to be given functions to extract the different pieces from the
 arguments). Not really happy with that, hopefully we'll find a better way.
 
-[simple clock example]: todo
+[simple clock example]: https://github.com/chpill/re-frankenstein/blob/6353a6a8bd93a88ad2f72e121b41fe53b6b48064/examples/simple/src/simple/core.cljs
 
 
 ## How does the local part works?
@@ -109,7 +108,7 @@ to replace the parts that are "global stateful" with some "local stateful" ones.
 
 [reg-event-db, reg-event-fx or reg-event-ctx]: https://github.com/Day8/re-frame/blob/cf61b2db1da360687c6b247888b29fb58bedf7cb/src/re_frame/core.cljc#L77-L103
 
-[See for yourself]: todo
+[See for yourself]: https://github.com/chpill/re-frankenstein/blob/6353a6a8bd93a88ad2f72e121b41fe53b6b48064/src/re_frame/frank.cljs#L86
 
 
 ### Is this a joke?
@@ -140,6 +139,9 @@ particular order:
 - Tracing? In the [issue about global state] mentioned above, it is said that
   the tracing system uses an atom internally. Again, I have no familiarity with
   what it is or what it does yet.
+
+- cljc: The new namespaces introduced here are cljs. It would be better to have
+  it work on the JVM too.
 
 - [devcards] helpers: As the views only consume data and dispatch events from
   functions in the react context, it should be possible to test them in
