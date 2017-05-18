@@ -15,7 +15,6 @@
 (def kind->id->handler  (atom {}))
 
 (defn get-handler-from-registry
-
   ([registry kind]
    (get registry kind))
 
@@ -29,6 +28,9 @@
        (when (and required? (nil? handler)) ;; Otherwise you'd need to type hint the and with a ^boolean for DCE.
          (console :error "re-frame: no " (str kind) " handler registered for:" id)))
      handler)))
+
+(defn get-handler-from-registry-atom [registry-atom & args]
+  (apply get-handler-from-registry @registry-atom args))
 
 (defn get-handler [& args]
   (apply get-handler-from-registry @kind->id->handler args))
@@ -47,16 +49,25 @@
 
 
 
-(defn clear-handlers
-  ([]            ;; clear all kinds
-   (reset! kind->id->handler {}))
+(defn clear-handlers-from-registry
+  ([registry] {})             ;; clear all kinds
 
-  ([kind]        ;; clear all handlers for this kind
+  ([registry kind]        ;; clear all handlers for this kind
    (assert (kinds kind))
-   (swap! kind->id->handler dissoc kind))
+   (dissoc registry kind))
 
-  ([kind id]     ;; clear a single handler for a kind
+  ([registry kind id]     ;; clear a single handler for a kind
    (assert (kinds kind))
-   (if (get-handler kind id)
-     (swap! kind->id->handler update-in [kind] dissoc id)
-     (console :warn "re-frame: can't clear" (str kind) "handler for" (str id ". Handler not found.")))))
+   (if (get-handler-from-registry registry kind id)
+     (update-in registry [kind] dissoc id)
+     (do (console :warn "re-frame: can't clear" (str kind) "handler for" (str id ". Handler not found."))
+         registry))))
+
+
+(defn clear-handlers-from-registry-atom [registry-atom & args]
+  (reset! registry-atom
+          (apply clear-handlers-from-registry @registry-atom args)))
+
+(defn clear-handlers [& args]
+  (reset! kind->id->handler
+          (apply clear-handlers-from-registry @kind->id->handler args)))

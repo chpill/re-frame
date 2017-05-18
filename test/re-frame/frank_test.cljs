@@ -85,3 +85,50 @@
     (let [frank (frank/create)]
       (frank/dispatch-sync! frank [::insert-plop "plouf"])
       (is (= {:plop "plouf"} @frank)))))
+
+(deftest with-standard-effects
+  (re-frame/reg-event-fx ::trigger-some-standard-effects
+                         (fn [_ _]
+                           {:db {:plop 0}
+                            :dispatch [::inc]
+                            :dispatch-later [{:ms 5 :dispatch [::inc]}
+                                             {:ms 5 :dispatch [::inc]}]
+                            :dispatch-n [[::inc]
+                                         [::inc]]}))
+  (re-frame/reg-event-db ::inc
+                         [(std-interceptors/path :plop)]
+                         (fn [val _] (inc val)))
+
+  (let [frank (frank/create)]
+    (frank/dispatch-sync! frank [::trigger-some-standard-effects])
+    (is (= {:plop 0} @frank))
+
+    (async done
+           (js/setTimeout (fn []
+                            (is (= {:plop 5} @frank))
+                            (done))
+                          10))))
+
+(deftest with-custom-effect
+  (re-frame/reg-event-fx ::trigger-side-plop
+                         (fn [_ _]
+                           {:db {:plop "step 1"}
+                            ::side-plop {:some-key "step 2"}}))
+  (re-frame/reg-fx ::side-plop
+                   (fn [{value :some-key} dispatch!]
+                     (dispatch! [::side-plop-success value])))
+  (re-frame/reg-event-db ::side-plop-success
+                         [(std-interceptors/path :plop)
+                          std-interceptors/trim-v]
+                         (fn [_ [value]] value))
+  (let [frank (frank/create)]
+    (frank/dispatch-sync! frank [::trigger-side-plop])
+    (is (= {:plop "step 1"} @frank))
+
+    (async done
+           (js/setTimeout (fn []
+                            (is (= {:plop "step 2"} @frank))
+                            (done))
+                          100))))
+
+
