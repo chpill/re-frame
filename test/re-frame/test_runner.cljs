@@ -10,7 +10,8 @@
     [re-frame.trace-test]
     [re-frame.restore-test]
     [re-frame.frank-test]
-    [re-frame.rum-test]))
+    [re-frame.rum-test]
+    ))
 
 (enable-console-print!)
 
@@ -27,7 +28,8 @@
     're-frame.trace-test
     're-frame.restore-test
     're-frame.frank-test
-    're-frame.rum-test))
+    're-frame.rum-test
+    ))
 
 ;; ---- KARMA  -----------------------------------------------------------------
 
@@ -40,4 +42,5 @@
     're-frame.trace-test
     're-frame.restore-test
     're-frame.frank-test
-    're-frame.rum-test))
+    're-frame.rum-test
+    ))

@@ -1,4 +1,4 @@
-(defproject com.chpill.re-frankenstein "0.0.1"
+(defproject com.chpill.re-frankenstein "0.0.2-SNAPSHOT"
   :description  "The deviant fork of re-frame"
   :url          "https://github.com/chpill/re-frankenstein.git"
   :license      {:name "MIT"}
@@ -10,7 +10,8 @@
   :profiles {:debug {:debug true}
              :dev   {:dependencies [[karma-reporter            "1.0.1"]
                                     [binaryage/devtools        "0.8.1"]
-                                    [cljsjs/react-dom-server "15.4.2-2"]]
+                                    [cljsjs/react-dom-server "15.4.2-2"]
+                                    [rum "0.10.8"]]
                      :plugins      [[lein-ancient              "0.6.10"]
                                     [lein-cljsbuild            "1.1.4"]
                                     [lein-npm                  "0.6.2"]
