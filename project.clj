@@ -1,4 +1,4 @@
-(defproject com.chpill.re-frankenstein "0.0.1-SNAPSHOT"
+(defproject com.chpill.re-frankenstein "0.0.1"
   :description  "The deviant fork of re-frame"
   :url          "https://github.com/chpill/re-frankenstein.git"
   :license      {:name "MIT"}
