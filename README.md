@@ -44,10 +44,23 @@ some local-state. Let's call him Frank.
 
 ## Basics
 
-Create a re-frame app, and register effect and coeffect handlers as you would
-normally do. The only restriction here is that you may not reference the
-`re-frame.db/app-state` in those handlers. Same restriction if you want to write
-custom interceptors.
+Create a re-frame app, and register events as you would normally do. The only
+restriction here is that you may not reference the `re-frame.db/app-state` in
+those handlers. Same restriction if you want to write custom interceptors.
+
+When you need to dispatch from an effect handler, the dispatch function will be
+provided as the second argument to the handler. For example: 
+
+```
+(reg-fx :http
+        (fn [url dispatch!]
+         (.. (js/fetch url)
+             (then  #(dispatch! [:success %]))
+             (catch #(dispatch! [:error %])))))
+```
+
+Be cautious not to use the global `dispatch` function of the traditional
+re-frame. It would affect the global state, not the local one.
 
 Then you can create a new abomination (you may create as many as you like).
 

@@ -18,8 +18,7 @@ from the original `do-fx` implementation.
 ## What re-frankenstein changes in 0.0.2
 
 The `do-fx` interceptor injected at the creation of a `frank` is now slightly
-different from  in the way it invokes the effect
-handlers:
+different from in the way it invokes the effect handlers:
 
 ```
 ;; The original way
@@ -50,3 +49,7 @@ That means that when you registering an effect that you want to use locally on a
 when the dynamic variable `*handling*` is true, they cannot use a synchronous
 dispatch. That is why we only pass them the normal asynchronous (aka next-tick)
 dispatch.
+
+Another consequence of this design is that the only way to mutate the `local-db`
+inside of your frank instance is via the `:db` effect. It like to think this is
+a feature, but I'll have to think about it a bit longer.
