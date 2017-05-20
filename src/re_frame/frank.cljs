@@ -112,7 +112,8 @@
                                                                        effect-k
                                                                        true)]
                       (effect-fn value
-                                 #(dispatch! frank %))))))]
+                                 {:dispatch!      #(dispatch! frank %)
+                                  :dispatch-sync! #(dispatch-sync! frank %)})))))]
 
     (reset! registry-atom
             (-> @registry-atom
@@ -126,7 +127,7 @@
 
                 (registrar/register-handler-into-registry
                  :fx :dispatch-later
-                 (fn [value local-dispatch]
+                 (fn [value {local-dispatch :dispatch!}]
                    (doseq [{:keys [ms dispatch] :as effect} value]
                      (if (or (empty? dispatch) (not (number? ms)))
                        (loggers/console :error "re-frame: ignoring bad :dispatch-later value:" effect)
@@ -134,14 +135,14 @@
 
                 (registrar/register-handler-into-registry
                  :fx :dispatch
-                 (fn [value local-dispatch]
+                 (fn [value {local-dispatch :dispatch!}]
                    (if-not (vector? value)
                      (loggers/console :error "re-frame: ignoring bad :dispatch value. Expected a vector, but got:" value)
                      (local-dispatch value))))
 
                 (registrar/register-handler-into-registry
                  :fx :dispatch-n
-                 (fn [value local-dispatch]
+                 (fn [value {local-dispatch :dispatch!}]
                    (if-not (sequential? value)
                      (loggers/console :error "re-frame: ignoring bad :dispatch-n value. Expected a collection, got got:" value)
                      (doseq [event value] (local-dispatch event)))))
@@ -149,7 +150,7 @@
 
                 (registrar/register-handler-into-registry
                  :fx :deregister-event-handler
-                 (fn [value local-dispatch]
+                 (fn [value]
                    (let [clear-event (partial registrar/clear-handlers-from-registry-atom registry-atom :fx)]
                      (doseq [event (if (sequential? value) value [value])]
                        (clear-event event)))))

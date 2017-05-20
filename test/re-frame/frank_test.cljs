@@ -115,7 +115,7 @@
                            {:db {:plop "step 1"}
                             ::side-plop {:some-key "step 2"}}))
   (re-frame/reg-fx ::side-plop
-                   (fn [{value :some-key} dispatch!]
+                   (fn [{value :some-key} {:keys [dispatch!]}]
                      (dispatch! [::side-plop-success value])))
   (re-frame/reg-event-db ::side-plop-success
                          [(std-interceptors/path :plop)
