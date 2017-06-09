@@ -1,3 +1,11 @@
+## 0.0.3-SNAPSHOT
+
+#### Breaking
+
+- Effect handlers get a map as second argument containing the dispatch and
+  dispatch-sync functions
+
+
 ## 0.0.2 (19/05/2017)
 
 #### Breaking
