@@ -1,5 +1,8 @@
 ## 0.0.3-SNAPSHOT
 
+- Rebased on re-frame@v0.9.4
+- You can now supply your own state atom when creating a frank
+
 #### Breaking
 
 - Effect handlers get a map as second argument containing the dispatch and
