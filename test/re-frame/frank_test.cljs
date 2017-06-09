@@ -132,3 +132,11 @@
                           100))))
 
 
+(deftest with-starting-atom
+  (re-frame/reg-event-db ::inc
+                         [(std-interceptors/path :plop)]
+                         (fn [val _] (inc val)))
+  (let [starting-atom (atom {:plop 1})
+        frank (frank/create starting-atom)]
+    (frank/dispatch-sync! frank [::inc])
+    (is (= {:plop 2} @frank))))

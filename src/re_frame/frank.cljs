@@ -166,18 +166,20 @@
                                            interceptors))
                                     event-handlers-by-id)))))))
 
-(defn create []
-  (let [local-db (atom {})
-        local-registry-atom (atom @registrar/kind->id->handler)
-        frank (->Frank local-registry-atom
-                       (router/->EventQueue local-registry-atom
-                                            :idle     ;; Initial queue state
-                                            #queue [] ;; Internal storage for actions
-                                            {})       ;; Function to be called after every action
-                       local-db)]
+(defn create
+  ([] (create (atom {})))
+  ([starting-atom]
+   (let [local-db starting-atom
+         local-registry-atom (atom @registrar/kind->id->handler)
+         frank (->Frank local-registry-atom
+                        (router/->EventQueue local-registry-atom
+                                             :idle     ;; Initial queue state
+                                             #queue [] ;; Internal storage for actions
+                                             {})       ;; Function to be called after every action
+                        local-db)]
 
-    (swap-stateful-interceptors! local-registry-atom
-                                 local-db
-                                 frank)
+     (swap-stateful-interceptors! local-registry-atom
+                                  local-db
+                                  frank)
 
-    frank))
+     frank)))
