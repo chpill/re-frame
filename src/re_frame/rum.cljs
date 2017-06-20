@@ -13,7 +13,7 @@
                            :else (throw "Did you forget to include react?")))
 
 (def ^:private PropTypes (cond (exists? js/PropTypes) js/PropTypes
-                               (exists? js/React.PropTypes) js/React.PropTypes
+                               (exists? (gobj/get React "PropTypes")) (gobj/get React "PropTypes")
                                (exists? js/require) (js/require "prop-types")
                                :else (throw "Did you forget to include prop-types?")))
 
