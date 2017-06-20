@@ -12,8 +12,13 @@
                            (exists? js/require) (js/require "react")
                            :else (throw "Did you forget to include react?")))
 
+(def ^:private PropTypes (cond (exists? js/PropTypes) js/PropTypes
+                               (exists js/React.PropTypes) js/React.PropTypes
+                               (exists? js/require) (js/require "prop-types")
+                               :else (throw "Did you forget to include prop-types?")))
+
 (let [frank-k "re-frame/frank"
-      context-types {frank-k React.PropTypes.object}]
+      context-types {frank-k PropTypes.object}]
 
   (defn inject-frank-into-context
     "Inject Frank instance into current react context. The Frank instance
@@ -61,8 +66,8 @@
   ;; context types.
 
   (let [aggregated-context-types (assoc context-types
-                             "org.martinklepsch.derivatives/get"     React.PropTypes.func
-                             "org.martinklepsch.derivatives/release" React.PropTypes.func)]
+                             "org.martinklepsch.derivatives/get"     PropTypes.func
+                             "org.martinklepsch.derivatives/release" PropTypes.func)]
 
     (def drv+frank-ctx {:class-properties {:contextTypes aggregated-context-types}})
     (def drv+frank-child-ctx {:class-properties {:childContextTypes aggregated-context-types}})))
